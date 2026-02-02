@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Horror House - A terrifying interactive experience with jumpscare effects and creepy sounds. Follow Valentinzgh1 on TikTok and Instagram.">
+    <meta name="keywords" content="horror, jumpscare, scary, FNAF, interactive, website, Valentinzgh1">
+    <meta name="author" content="Valentin Gorincioi">
+    <meta name="theme-color" content="#00d4ff">
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="Horror House - Dare to Enter?">
+    <meta property="og:description" content="A terrifying interactive horror experience with FNAF-style jumpscares.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ccircle cx='50' cy='50' r='40' fill='%23FF5500'/%3E%3Ccircle cx='35' cy='40' r='8' fill='%23000'/%3E%3Ccircle cx='65' cy='40' r='8' fill='%23000'/%3E%3Cpath d='M 45 60 L 55 60 L 50 70 Z' fill='%23FF2200'/%3E%3C/svg%3E">
+    
+    <title>Horror House - Interactive Jumpscare Experience</title>
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background-attachment: fixed;
+            color: #00d4ff;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 0, 100, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            border-bottom: 3px solid #00d4ff;
+            text-shadow: 0 0 20px #00d4ff, 0 0 40px rgba(0, 212, 255, 0.5);
+            background: rgba(0, 20, 40, 0.7);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            animation: neonGlow 2s ease-in-out infinite;
+            letter-spacing: 3px;
+            color: #00d4ff;
+            font-weight: 900;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            color: #00d4ff;
+            opacity: 0.8;
+        }
+        
+        @keyframes neonGlow {
+            0%, 100% { 
+                text-shadow: 0 0 20px #00d4ff, 0 0 40px rgba(0, 212, 255, 0.5); 
+            }
+            50% { 
+                text-shadow: 0 0 30px #00d4ff, 0 0 60px rgba(0, 212, 255, 0.8), 0 0 80px rgba(0, 212, 255, 0.4); 
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(15, 52, 96, 0.8) 0%, rgba(22, 33, 62, 0.8) 100%);
+            border: 2px solid #00d4ff;
+            border-left: 5px solid #ff0064;
+            border-right: 5px solid #ff0064;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 
+                0 0 20px rgba(0, 212, 255, 0.4),
+                inset 0 0 30px rgba(0, 212, 255, 0.05),
+                0 0 40px rgba(255, 0, 100, 0.2);
+            backdrop-filter: blur(5px);
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+            border-radius: 5px;
+        }
+        
+        .card:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+        
+        .card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        
+        .card h2 {
+            color: #00d4ff;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+        }
+        
+        .card p {
+            color: #00d4ff;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #0f3460;
+            border: 2px solid #00d4ff;
+            padding: 12px 28px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 10px 10px 0;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.95em;
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        button:hover {
+            box-shadow: 
+                0 0 25px #00d4ff,
+                0 0 50px rgba(0, 212, 255, 0.6),
+                inset 0 0 20px rgba(0, 212, 255, 0.3);
+            transform: translateY(-3px);
+            border-color: #ff0064;
+            background: linear-gradient(135deg, #00d4ff 0%, #00ffff 100%);
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        button:active {
+            transform: translateY(-1px);
+            box-shadow: 
+                0 0 15px #00d4ff,
+                inset 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 2px solid #00d4ff;
+            margin-top: 50px;
+            background: rgba(0, 20, 40, 0.6);
+            backdrop-filter: blur(10px);
+        }
+        
+        footer p {
+            color: #00d4ff;
+            font-size: 0.95em;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+            opacity: 0.9;
+        }
+
+        /* FNAF Jumpscare Styles */
+        .jumpscare-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: none;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .jumpscare-container.show {
+            display: flex;
+            animation: jumpscareFlash 0.5s ease-in-out;
+        }
+
+        .foxy-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            animation: jumpscareShake 0.4s ease-in-out;
+        }
+
+        .jumpscare-text {
+            color: #ff0000;
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 0 0 20px #ff0000;
+            margin-top: 20px;
+            animation: jumpscareFlash 0.4s ease-in-out;
+        }
+
+        @keyframes jumpscareFlash {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes jumpscareShake {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            10% { transform: translate(-10px, -10px) scale(1.1); }
+            20% { transform: translate(10px, 10px) scale(1.1); }
+            30% { transform: translate(-10px, 10px) scale(1.1); }
+            40% { transform: translate(10px, -10px) scale(1.1); }
+            50% { transform: translate(0, 0) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div id="jumpscare" class="jumpscare-container">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23000'/%3E%3Cellipse cx='200' cy='150' rx='100' ry='120' fill='%23FF5500'/%3E%3Ccircle cx='150' cy='120' r='28' fill='%23000'/%3E%3Ccircle cx='250' cy='120' r='28' fill='%23000'/%3E%3Ccircle cx='145' cy='115' r='15' fill='%23FFE600'/%3E%3Ccircle cx='255' cy='115' r='15' fill='%23FFE600'/%3E%3Ccircle cx='145' cy='115' r='8' fill='%23000'/%3E%3Ccircle cx='255' cy='115' r='8' fill='%23000'/%3E%3Cpath d='M 180 190 L 220 190 L 200 230 Z' fill='%23FF2200' stroke='%23000' stroke-width='2'/%3E%3Crect x='140' y='260' width='120' height='80' fill='%23DD4400' rx='10'/%3E%3Cpath d='M 170 340 L 160 400 L 180 390 M 200 340 L 200 410 M 230 340 L 240 400 L 220 390' stroke='%23000' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M 130 270 Q 80 290 75 350' stroke='%23FF3300' stroke-width='10' fill='none' stroke-linecap='round'/%3E%3Cpath d='M 270 280 L 340 250 L 330 300 Z' fill='%23FF2200' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E" alt="Foxy" class="foxy-image">
+        <div class="jumpscare-text">GET OUT!</div>
+    </div>
+
+    <header>
+        <h1>🕷️ HORROR HOUSE 🕷️</h1>
+        <p>Welcome to the darkness...</p>
+    </header>
+    
+    <div class="container">
+        <div class="card">
+            <h2>👻 Follow my tiktok</h2>
+            <p>Know!</p>
+            <button onclick="playSound('scream'); window.open('https://www.tiktok.com/search?q=valentinzgh1&t=1769691230429', '_blank')">Follow my tiktok</button>
+        </div>
+        
+        <div class="card">
+            <h2>🔮 Follow my instagram</h2>
+            <p>Know!</p>
+            <button onclick="playSound('mystery'); window.open('https://www.instagram.com/valentinzgh1/?next=%2Fdirect%2Finbox%2F', '_blank')">Follow to my instagram</button>
+        </div>
+        
+        <div class="card">
+            <h2>🎵 RUSH Music</h2>
+            <p>Listen to legendary Rush songs:</p>
+            <audio id="rushPlayer" controls style="width: 100%; margin: 15px 0;">
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div>
+                <button onclick="playSound('mystery'); window.open('https://www.youtube.com/watch?v=Qskm9MTz2V4', '_blank')">🎸 Rush e</button>
+                <button onclick="playRush('Limelight')">💫 Limelight</button>
+                <button onclick="playRush('The Fountain of Lamneth')">🌊 Fountain</button>
+                <button onclick="playRush('2112')">🚀 2112</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>�🎬 YouTube Videos</h2>
+            <p>Choose your adventure:</p>
+            <button onclick="playSound('horror'); window.open('https://www.youtube.com/results?search_query=horror+movie', '_blank')">👹 Horror Video</button>
+            <button onclick="playSound('meow'); window.open('https://www.youtube.com/results?search_query=cute+cats', '_blank')">🐱 Cats Video</button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Created with Vision Studio & Valentin Gorincioi</p>
+        <p>☎️ 068200005</p>
+        <p style="margin-top: 20px; font-size: 0.85em; opacity: 0.7;">Follow @valentinzgh1 • Horror House © 2026</p>
+    </footer>
+    
+    <script>
+        // Track page analytics
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Horror House loaded successfully');
+        });
+        function playSound(type) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+            
+            gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            if (type === 'scream') {
+                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.5);
+            } else if (type === 'mystery') {
+                oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.5);
+            } else if (type === 'horror') {
+                oscillator.frequency.setValueAtTime(150, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.5);
+            } else if (type === 'meow') {
+                oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(700, audioContext.currentTime + 0.3);
+            }
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+        
+        function startHorror() {
+            alert('Something moves in the darkness... 👁️');
+        }
+        
+        function playRush(song) {
+            const rushLinks = {
+                'Tom Sawyer': 'https://www.youtube.com/results?search_query=rush+tom+sawyer',
+                'Limelight': 'https://www.youtube.com/results?search_query=rush+limelight',
+                'The Fountain of Lamneth': 'https://www.youtube.com/results?search_query=rush+fountain+of+lamneth',
+                '2112': 'https://www.youtube.com/results?search_query=rush+2112'
+            };
+            playSound('mystery');
+            alert('🎵 Now playing: ' + song + ' by RUSH!');
+            window.open(rushLinks[song], '_blank');
+        }
+
+        // FNAF Jumpscare - Triggers at exactly 15 seconds
+        let startTime = Date.now();
+        let jumpscareTriggered = false;
+
+        function checkJumpscare() {
+            if (!jumpscareTriggered) {
+                const elapsedTime = (Date.now() - startTime) / 1000;
+                
+                if (elapsedTime >= 15) {
+                    jumpscareTriggered = true;
+                    const jumpscareEl = document.getElementById('jumpscare');
+                    jumpscareEl.classList.add('show');
+                    
+                    // Speak "GET OUT" immediately using ResponsiveVoice API
+                    if (typeof responsiveVoice !== 'undefined') {
+                        responsiveVoice.speak('GET OUT', 'US English Male', {rate: 1.5, pitch: 1.5, volume: 1});
+                    }
+                    
+                    // Play horror music - multiple scary sounds
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    
+                    // Create multiple oscillators for a horror chord effect
+                    const frequencies = [80, 110, 150];
+                    frequencies.forEach((freq, index) => {
+                        setTimeout(() => {
+                            const oscillator = audioContext.createOscillator();
+                            const gain = audioContext.createGain();
+                            
+                            oscillator.connect(gain);
+                            gain.connect(audioContext.destination);
+                            
+                            oscillator.type = 'triangle';
+                            gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+                            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
+                            
+                            oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                            oscillator.start(audioContext.currentTime);
+                            oscillator.stop(audioContext.currentTime + 1.5);
+                        }, index * 100);
+                    });
+                    
+                    // Add a deep scary bass sound
+                    setTimeout(() => {
+                        const bass = audioContext.createOscillator();
+                        const bassGain = audioContext.createGain();
+                        
+                        bass.connect(bassGain);
+                        bassGain.connect(audioContext.destination);
+                        
+                        bass.type = 'sine';
+                        bassGain.gain.setValueAtTime(0.4, audioContext.currentTime);
+                        bassGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 2);
+                        
+                        bass.frequency.setValueAtTime(50, audioContext.currentTime);
+                        bass.start(audioContext.currentTime);
+                        bass.stop(audioContext.currentTime + 2);
+                    }, 0);
+
+                    // Add glass breaking sound effect
+                    setTimeout(() => {
+                        const glassNoise = audioContext.createBufferSource();
+                        const noiseBuffer = audioContext.createBuffer(1, audioContext.sampleRate * 0.3, audioContext.sampleRate);
+                        const noiseData = noiseBuffer.getChannelData(0);
+                        for (let i = 0; i < noiseBuffer.length; i++) {
+                            noiseData[i] = Math.random() * 2 - 1;
+                        }
+                        
+                        const noiseGain = audioContext.createGain();
+                        glassNoise.buffer = noiseBuffer;
+                        glassNoise.connect(noiseGain);
+                        noiseGain.connect(audioContext.destination);
+                        
+                        noiseGain.gain.setValueAtTime(0.5, audioContext.currentTime);
+                        noiseGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+                        
+                        glassNoise.start(audioContext.currentTime);
+                        glassNoise.stop(audioContext.currentTime + 0.4);
+                    }, 500);
+                    
+                    // Remove jumpscare after 10 seconds
+                    setTimeout(() => {
+                        jumpscareEl.classList.remove('show');
+                    }, 10000);
+                }
+            }
+        }
+
+        // Check every 100ms to see if 15 seconds have passed
+        setInterval(checkJumpscare, 100);
+    </script>
+    <a href="https://www.youtube.com/watch?v=cIwRQwAS_YY" target="_blank" 
+   style="background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+          color: #0f3460;
+          border: 2px solid #00d4ff;
+          padding: 12px 28px;
+          font-weight: bold;
+          cursor: pointer;
+          margin: 10px 10px 10px 0;
+          transition: all 0.4s ease;
+          position: relative;
+          overflow: hidden;
+          border-radius: 5px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-size: 0.95em;
+          display: inline-block;
+          text-align: center;">
+  💸 Donate for Steam
+</a>
+</body>
+</html>
+<div class="card">
+  <h2>👁️ Vizitatori</h2>
+  <p>Persoane care au intrat pe site:</p>
+  <h3 id="visitorCount">0</h3>
+</div>
+<script>
+  let visits = localStorage.getItem("visits");
+
+  if (!visits) {
+    visits = 0;
+  }
+
+  visits++;
+  localStorage.setItem("visits", visits);
+
+  document.getElementById("visitorCount").textContent = visits;
+</script>
